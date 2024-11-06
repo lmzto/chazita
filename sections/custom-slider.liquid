@@ -1,0 +1,109 @@
+{{ 'section.custom-slide.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  {% for block in section.blocks %}
+    <h1>{{ block.settings.slide_text }}</h1>
+  {% endfor %}
+{% endcomment %}
+<!-- Slider main container -->
+<div class="swiper">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    {% for block in section.blocks %}
+      <div class="swiper-slide">
+        {% comment %} <img src="{{ block.settings.slide_image | img_url: 'master' }}" alt="{{ block.settings.slide_text }}"> {% endcomment %}
+        <article class="slide-content">
+          <h2>{{ block.settings.slide_text }}</h2>
+          <a href="{{ block.settings.Link_url }}">{{ block.settings.link_text }}</a>
+          <img src="{{ block.settings.slide_image | image_url }}" alt="image-de-slide">
+        </article>
+      </div>
+    {% endfor %}
+
+    {% comment %}
+      <div class="swiper-slide">{{ section.settings.slider_heading }}</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+    {% endcomment %}
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+<script>
+  const swiper = new Swiper('.swiper', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+
+    // If we need pagination
+    {% comment %} pagination: {
+      el: '.swiper-pagination',
+    }, {% endcomment %}
+
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+      el: '.swiper-scrollbar',
+    },
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom Slider-Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "esto es el label",
+      "default": "esto es texto por defecto"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider Banner",
+      "category": "Banner"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "slide_text",
+          "label": "titulo Slide"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "ver mas..."
+        },
+        {
+          "type": "image_picker",
+          "id": "slide_image",
+          "label": "selecciona tu imagen"
+        },
+        {
+          "type": "url",
+          "id": "Link_url",
+          "label": "URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
